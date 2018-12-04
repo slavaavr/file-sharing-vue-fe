@@ -1,5 +1,5 @@
 <template>
-    <v-container id="drop-area" ref="dropArea">
+    <v-container id="dragArea" ref="dragArea">
         <v-layout column align-center justify-center>
             <div id="arrow-area">
                 <v-img
@@ -39,27 +39,28 @@
             this.arrow = require('@/assets/arrow-right-hi.png');
         },
         mounted() {
-            const dropArea = this.$refs.dropArea;
+            const dragArea = this.$refs.dragArea;
             const preventDefaults = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
             };
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false)
+                dragArea.addEventListener(eventName, preventDefaults, false)
             });
             const highlight = (e) => {
-                dropArea.classList.add('highlight');
-                dropArea.firstChild.classList.add('disablePointerEvents');
+                dragArea.classList.add('highlight');
+                dragArea.firstChild.classList.add('disablePointerEvents');
             };
             const unhighlight = (e) => {
-                dropArea.classList.remove('highlight');
-                // dropArea.firstChild.classList.remove('disablePointerEvents');
+                dragArea.classList.remove('highlight');
+                //fixme Bug is here: page may blink when a file over it
+                dragArea.firstChild.classList.remove('disablePointerEvents');
             };
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false)
+            ['dragenter'].forEach(eventName => {
+                dragArea.addEventListener(eventName, highlight, false)
             });
             ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false)
+                dragArea.addEventListener(eventName, unhighlight, false)
             });
 
 
@@ -85,8 +86,7 @@
         font-size: 16pt;
     }
 
-    #drop-area {
-        position: relative;
+    #dragArea {
         height: 95%;
     }
 
@@ -95,7 +95,7 @@
         border-radius: 20px;
     }
 
-    .disablePointerEvents {
+    .disablePointerEvents * {
         pointer-events: none;
     }
 
