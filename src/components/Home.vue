@@ -1,5 +1,5 @@
 <template>
-    <v-container id="dragArea" ref="dragArea">
+    <v-container ref="dragArea" class="draggableArea disablePointerEvents">
         <v-layout column align-center justify-center>
             <div id="arrow-area">
                 <v-img
@@ -17,7 +17,7 @@
                         height="auto"
                 ></v-img>
             </v-flex>
-            <v-flex>
+            <v-flex :class="btnAvailability">
                 <v-btn color="primary" large @click="uploadFile">
                     Upload
                     <v-icon right>backup</v-icon>
@@ -31,9 +31,13 @@
 
 <script>
     export default {
-        name: "Home",
-        mainLogo: '',
-        arrow: '',
+        data() {
+            return {
+                mainLogo: '',
+                arrow: '',
+                uploadBtnEnable: true
+            }
+        },
         created() {
             this.mainLogo = require('@/assets/mainLogo.png');
             this.arrow = require('@/assets/arrow-right-hi.png');
@@ -49,12 +53,11 @@
             });
             const highlight = (e) => {
                 dragArea.classList.add('highlight');
-                dragArea.firstChild.classList.add('disablePointerEvents');
+                this.uploadBtnEnable = false;
             };
             const unhighlight = (e) => {
                 dragArea.classList.remove('highlight');
-                //fixme Bug is here: page may blink when a file over it
-                dragArea.firstChild.classList.remove('disablePointerEvents');
+                this.uploadBtnEnable = true;
             };
             ['dragenter'].forEach(eventName => {
                 dragArea.addEventListener(eventName, highlight, false)
@@ -62,14 +65,18 @@
             ['dragleave', 'drop'].forEach(eventName => {
                 dragArea.addEventListener(eventName, unhighlight, false)
             });
-
-
+        },
+        computed: {
+            btnAvailability() {
+                return {
+                    enablePointerEvents: this.uploadBtnEnable
+                }
+            }
         },
         methods: {
             uploadFile() {
                 this.$refs.uploader.click();
             }
-
         }
     }
 </script>
@@ -86,7 +93,7 @@
         font-size: 16pt;
     }
 
-    #dragArea {
+    .draggableArea {
         height: 95%;
     }
 
@@ -97,6 +104,10 @@
 
     .disablePointerEvents * {
         pointer-events: none;
+    }
+
+    .enablePointerEvents * {
+        pointer-events: auto;
     }
 
     .non-selectable {
