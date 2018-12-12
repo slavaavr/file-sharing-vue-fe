@@ -1,29 +1,34 @@
 <template>
     <v-container ref="dragArea" class="draggableArea disablePointerEvents">
-        <v-layout column align-center justify-center>
-            <div id="arrow-area">
+        <v-layout row align-center wrap>
+            <v-flex xs4>
                 <v-img
                         :src="arrow"
-                        height="auto"
-                        max-width="80%"
-                ></v-img>
-                <span class="non-selectable">Try to drag & drop your file</span>
-            </div>
-            <v-flex xs4 md6 lg4>
-                <v-img
-                        :src="mainLogo"
-                        width="550px"
-                        max-width="100%"
+                        width="250px"
+                        max-width="70%"
                         height="auto"
                 ></v-img>
+                <span class="non-selectable" style="font-size: 16pt;">Try to drag & drop your file</span>
             </v-flex>
-            <v-flex :class="btnAvailability">
-                <v-btn color="primary" large @click="uploadFile">
-                    Upload
-                    <v-icon right>backup</v-icon>
-                </v-btn>
-                <input id="uploader" ref="uploader" type="file"
-                       @сhange=""/>
+            <v-flex xs4 offset-xs-4>
+                <v-layout column align-center wrap>
+                    <v-flex>
+                        <v-img
+                                :src="mainLogo"
+                                width="550px"
+                                max-width="100%"
+                                height="auto"
+                        ></v-img>
+                    </v-flex>
+                    <v-flex :class="btnAvailability">
+                        <v-btn color="primary" large @click="uploadFile">
+                            Upload
+                            <v-icon right>backup</v-icon>
+                        </v-btn>
+                        <input id="uploader" ref="uploader" type="file"
+                               @сhange=""/>
+                    </v-flex>
+                </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
@@ -91,13 +96,6 @@
 <style scoped>
     #uploader {
         display: none;
-    }
-
-    #arrow-area {
-        position: absolute;
-        left: 5%;
-        /*top: 10%;*/
-        font-size: 16pt;
     }
 
     .draggableArea {
