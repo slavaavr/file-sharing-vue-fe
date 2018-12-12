@@ -6,7 +6,7 @@ import Vuetify from 'vuetify'
 import VueResource from 'vue-resource'
 import 'vuetify/src/stylus/app.styl'
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {iconfont: 'mdi'});
 Vue.use(VueResource);
 
 Vue.config.productionTip = false;

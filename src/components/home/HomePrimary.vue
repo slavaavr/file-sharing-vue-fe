@@ -31,16 +31,19 @@
 
 <script>
     export default {
+        props: {
+            changeHome: Function
+        },
         data() {
             return {
                 mainLogo: '',
                 arrow: '',
-                uploadBtnEnable: true
+                uploadBtnEnable: true,
             }
         },
         created() {
             this.mainLogo = require('@/assets/mainLogo.png');
-            this.arrow = require('@/assets/arrow-right-hi.png');
+            this.arrow = require('@/assets/arrow.png');
         },
         mounted() {
             const dragArea = this.$refs.dragArea;
@@ -65,6 +68,10 @@
             ['dragleave', 'drop'].forEach(eventName => {
                 dragArea.addEventListener(eventName, unhighlight, false)
             });
+            const handleDrop = (e) => {
+                this.changeHome();
+            };
+            dragArea.addEventListener('drop', handleDrop, false);
         },
         computed: {
             btnAvailability() {
@@ -89,7 +96,7 @@
     #arrow-area {
         position: absolute;
         left: 5%;
-        top: 10%;
+        /*top: 10%;*/
         font-size: 16pt;
     }
 
