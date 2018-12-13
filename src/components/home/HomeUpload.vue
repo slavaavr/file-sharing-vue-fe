@@ -1,9 +1,8 @@
 <template>
-    <v-container style="border: 2px solid red;">
+    <v-container>
         <v-layout row align-center justify-center>
-            <v-flex xs4 md8 style="border: 2px solid darkviolet">
+            <v-flex xs6 md6 lg6 xl4>
                 <v-container
-                        id="canvas"
                         class="elevation-2"
                         grid-list-lg
                 >
@@ -25,7 +24,6 @@
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
-
                         <v-flex>
                             <v-card>
                                 <v-card-title>
@@ -49,7 +47,7 @@
                                         ></v-select>
                                     </v-flex>
                                 </v-layout>
-                                <v-layout row wrap align-center style="border: 2px solid red">
+                                <v-layout row wrap align-center>
                                     <v-flex xs4>
                                         <v-subheader>Tags</v-subheader>
                                     </v-flex>
@@ -96,10 +94,5 @@
 </script>
 
 <style scoped>
-    #canvas {
-        border-radius: 5px;
-        width: 40vw;
-        height: 40vw;
-        /*max-height: 80%;*/
-    }
+
 </style>

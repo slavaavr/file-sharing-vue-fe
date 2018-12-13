@@ -36,9 +36,6 @@
 
 <script>
     export default {
-        props: {
-            changeHome: Function
-        },
         data() {
             return {
                 mainLogo: '',
@@ -74,7 +71,7 @@
                 dragArea.addEventListener(eventName, unhighlight, false)
             });
             const handleDrop = (e) => {
-                this.changeHome();
+                this.$store.dispatch('changeHome', e.dataTransfer.files);
             };
             dragArea.addEventListener('drop', handleDrop, false);
         },

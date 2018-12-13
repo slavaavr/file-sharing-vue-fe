@@ -1,11 +1,11 @@
 <template>
     <v-combobox
-            v-model="model"
+            v-model="tags"
             :filter="filter"
-            :hide-no-data="!search"
-            :items="items"
-            :search-input.sync="search"
+            :hide-no-data="!searchTag"
             hide-selected
+            :search-input.sync="searchTag"
+            :items="basicTags"
             label="Type your tag"
             multiple
             small-chips
@@ -14,14 +14,15 @@
             <v-list-tile>
                 <span class="subheading">Create</span>
                 <v-chip
-                        :color="`${colors[nonce - 1]} lighten-3`"
+                        :color="`${colors[currColor]} lighten-3`"
                         label
                         small
                 >
-                    {{ search }}
+                    {{ searchTag }}
                 </v-chip>
             </v-list-tile>
         </template>
+
         <template
                 v-if="item === Object(item)"
                 slot="selection"
@@ -33,9 +34,9 @@
                     label
                     small
             >
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
+                <span class="pr-2">
+                  {{ item.text }}
+                </span>
                 <v-icon
                         small
                         @click="parent.selectItem(item)"
@@ -43,23 +44,13 @@
                 </v-icon>
             </v-chip>
         </template>
+
         <template
                 slot="item"
                 slot-scope="{ index, item, parent }"
         >
             <v-list-tile-content>
-                <v-text-field
-                        v-if="editing === item"
-                        v-model="editing.text"
-                        autofocus
-                        flat
-                        background-color="transparent"
-                        hide-details
-                        solo
-                        @keyup.enter="edit(index, item)"
-                ></v-text-field>
                 <v-chip
-                        v-else
                         :color="`${item.color} lighten-3`"
                         dark
                         label
@@ -68,15 +59,6 @@
                     {{ item.text }}
                 </v-chip>
             </v-list-tile-content>
-            <v-spacer></v-spacer>
-            <v-list-tile-action @click.stop>
-                <v-btn
-                        icon
-                        @click.stop.prevent="edit(index, item)"
-                >
-                    <v-icon>{{ editing !== item ? 'edit' : 'check' }}</v-icon>
-                </v-btn>
-            </v-list-tile-action>
         </template>
     </v-combobox>
 </template>
@@ -85,12 +67,9 @@
     export default {
         data() {
             return {
-                activator: null,
-                attach: null,
                 colors: ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'],
-                editing: null,
-                index: -1,
-                items: [
+                currColor: 0,
+                basicTags: [
                     {header: 'Select a tag or create one'},
                     {
                         text: 'Foo',
@@ -101,51 +80,28 @@
                         color: 'red'
                     }
                 ],
-                nonce: 1,
-                menu: false,
-                model: [
-                    {
-                        text: 'Foo',
-                        color: 'blue'
-                    }
-                ],
-                x: 0,
-                search: null,
-                y: 0
+                tags: [],
+                searchTag: null
             }
         },
-
         watch: {
-            model(val, prev) {
+            tags(val, prev) {
                 if (val.length === prev.length) return;
 
-                this.model = val.map(v => {
+                this.tags = val.map(v => {
                     if (typeof v === 'string') {
                         v = {
                             text: v,
-                            color: this.colors[this.nonce - 1]
+                            color: this.colors[this.currColor]
                         };
-
-                        this.items.push(v);
-
-                        this.nonce++
+                        this.basicTags.push(v);
+                        this.currColor = (this.currColor + 1) % this.colors.length;
                     }
-
-                    return v
-                })
+                    return v;
+                });
             }
         },
-
         methods: {
-            edit(index, item) {
-                if (!this.editing) {
-                    this.editing = item;
-                    this.index = index;
-                } else {
-                    this.editing = null;
-                    this.index = -1;
-                }
-            },
             filter(item, queryText, itemText) {
                 if (item.header) return false;
 

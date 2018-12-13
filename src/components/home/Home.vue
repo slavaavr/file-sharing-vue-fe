@@ -1,7 +1,7 @@
 <template>
     <transition :name="transitionName" mode="out-in">
-        <app-home-primary v-if="isHomePrimary" :changeHome="changeHome"></app-home-primary>
-        <app-home-upload v-else :changeHome="changeHome"></app-home-upload>
+        <app-home-primary v-if="isHomePrimary"></app-home-primary>
+        <app-home-upload v-else></app-home-upload>
     </transition>
 </template>
 
@@ -12,24 +12,18 @@
     export default {
         data() {
             return {
-                currentHome: 'homePrimary',
-                transitionName: 'slide-left'
+
             }
         },
         methods: {
-            changeHome() {
-                if (this.isHomePrimary){
-                    this.transitionName = 'slide-right';
-                    this.currentHome = 'homeUpload';
-                } else {
-                    this.transitionName = 'slide-left';
-                    this.currentHome = 'homePrimary';
-                }
-            }
+
         },
         computed: {
             isHomePrimary() {
-                return this.currentHome === 'homePrimary';
+                return this.$store.state.home.isHomePrimary;
+            },
+            transitionName() {
+                return this.$store.state.home.transitionName;
             }
         },
         components: {
