@@ -1,6 +1,6 @@
 <template>
     <v-toolbar app fixed color="blue darken-1" dark>
-        <v-container class="ma-0">
+        <v-container fluid class="ma-0">
             <v-layout row justify-center>
                 <v-btn flat>
                     <router-link to="/" class="barTitle">FileSharing</router-link>
