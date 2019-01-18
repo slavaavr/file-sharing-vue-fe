@@ -2,7 +2,7 @@
     <v-toolbar app fixed color="blue darken-1" dark>
         <v-container fluid class="ma-0">
             <v-layout row justify-center>
-                <v-btn flat>
+                <v-btn flat @click="initState">
                     <router-link to="/" class="barTitle">FileSharing</router-link>
                 </v-btn>
                 <v-btn flat>
@@ -14,11 +14,30 @@
                         solo-inverted
                         hide-details
                         prepend-inner-icon="search"
-                        label="Search"
+                        label="Search by #tags or file name"
                         style="max-width: 400px; min-width: 200px"
                 ></v-text-field>
-                <app-login></app-login>
-                <app-registration></app-registration>
+                <div id="authoritiesBlock" v-if="!user">
+                    <app-login></app-login>
+                    <app-registration></app-registration>
+                </div>
+                <div v-else>
+                    <div class="text-xs-center">
+                        <v-menu offset-y>
+                            <v-btn
+                                    slot="activator"
+                                    flat
+                            >
+                                {{user.email}}
+                            </v-btn>
+                            <v-list>
+                                <v-list-tile @click="exitUser">
+                                    <v-list-tile-title>Exit</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </div>
+                </div>
             </v-layout>
         </v-container>
     </v-toolbar>
@@ -32,6 +51,19 @@
         components: {
             appLogin: Login,
             appRegistration: Registration
+        },
+        computed: {
+            user() {
+                return this.$store.getters.user;
+            }
+        },
+        methods: {
+            exitUser() {
+                this.$store.dispatch('exitUser');
+            },
+            initState() {
+                this.$store.dispatch('initState');
+            }
         }
     }
 </script>
@@ -41,5 +73,8 @@
         font-size: medium;
         color: inherit;
         text-decoration: none;
+    }
+    #authoritiesBlock {
+        white-space: nowrap;
     }
 </style>
