@@ -4,11 +4,13 @@
         <v-content class="mainBackground">
             <router-view></router-view>
         </v-content>
+        <app-error-notice></app-error-notice>
     </v-app>
 </template>
 
 <script>
     import Toolbar from './components/Toolbar'
+    import ErrorNotice from './components/ErrorNotice'
 
     export default {
         data() {
@@ -16,6 +18,7 @@
         },
         components: {
             appToolbar: Toolbar,
+            appErrorNotice: ErrorNotice
         }
     }
 </script>
