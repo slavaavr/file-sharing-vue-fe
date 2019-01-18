@@ -71,14 +71,6 @@
                 currColor: 0,
                 basicTags: [
                     {header: 'Select a tag or create one'},
-                    {
-                        text: 'Foo',
-                        color: 'blue'
-                    },
-                    {
-                        text: 'Bar',
-                        color: 'red'
-                    }
                 ],
                 tags: [],
                 searchTag: null
@@ -90,15 +82,11 @@
 
                 this.tags = val.map(v => {
                     if (typeof v === 'string') {
-                        v = {
-                            text: v,
-                            color: this.colors[this.currColor]
-                        };
-                        this.basicTags.push(v);
-                        this.currColor = (this.currColor + 1) % this.colors.length;
+                        v = this.addTag(v);
                     }
                     return v;
                 });
+                this.$store.dispatch('setTags', this.tags);
             }
         },
         methods: {
@@ -113,7 +101,23 @@
                 return text.toString()
                     .toLowerCase()
                     .indexOf(query.toString().toLowerCase()) > -1
+            },
+            addTag(name) {
+                const tag = {
+                    text: name,
+                    color: this.colors[this.currColor]
+                };
+                this.basicTags.push(tag);
+                this.currColor = (this.currColor + 1) % this.colors.length;
+                return tag;
             }
+        },
+        created() {
+            this.$store.dispatch('getPopularTags')
+                .then(tags => {
+                    tags.forEach(e => this.addTag(e))
+                })
+                .catch(err => this.$store.dispatch('setError', err.message))
         }
     }
 </script>
