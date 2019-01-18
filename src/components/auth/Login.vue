@@ -38,7 +38,8 @@
                 <v-btn
                         color="primary"
                         @click="onSubmit"
-                        :disabled="!isFormValid"
+                        :disabled="!isFormValid || loading"
+                        :loading="loading"
                 >Login
                 </v-btn>
             </v-card-actions>
@@ -64,6 +65,11 @@
                 ]
             }
         },
+        computed: {
+            loading() {
+                return this.$store.getters.loading;
+            }
+        },
         methods: {
             onSubmit() {
                 if (this.$refs.form.validate()) {
@@ -71,7 +77,9 @@
                         email: this.email,
                         password: this.password
                     };
-                    this.dialog_login = false;
+                    this.$store.dispatch('loginUser', user)
+                        .then(() => this.dialog_login = false)
+                        .catch((err) => this.$store.dispatch('setError', err))
                 }
             },
             onClose() {

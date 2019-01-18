@@ -49,7 +49,8 @@
                 <v-btn
                         color="primary"
                         @click="onSubmit"
-                        :disabled="!isFormValid"
+                        :disabled="!isFormValid || loading"
+                        :loading="loading"
                 >Sign up
                 </v-btn>
             </v-card-actions>
@@ -84,16 +85,22 @@
                 ]
             }
         },
+        computed: {
+            loading() {
+                return this.$store.getters.loading;
+            }
+        },
         methods: {
             onSubmit() {
                 if (this.$refs.form.validate()) {
                     const user = {
-                        name: this.username,
+                        nickname: this.username,
                         email: this.email,
                         password: this.password
-
                     };
-                    this.dialog_sign_up = false;
+                    this.$store.dispatch('registerUser', user)
+                        .then(() => this.dialog_sign_up = false)
+                        .catch((err) => this.$store.dispatch('setError', err))
                 }
             },
             onClose() {
