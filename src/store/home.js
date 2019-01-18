@@ -1,19 +1,36 @@
 export default {
     state: {
-        file: null,
         transitionName: 'slide-right',
         isHomePrimary: true,
     },
+    mutations: {
+        setIsHomePrimary(state, payload) {
+            state.isHomePrimary = payload;
+        },
+        setTransitionName(state, payload) {
+            state.transitionName = payload;
+        }
+    },
     actions: {
-        changeHome({state}, files) {
+        changeHome({commit, state}) {
             if (state.isHomePrimary) {
-                state.file = files[0];
-                state.transitionName = 'slide-left';
+                commit('setTransitionName', 'slide-left');
             } else {
-                state.file = null;
-                state.transitionName = 'slide-right';
+                commit('setTransitionName', 'slide-right');
             }
-            state.isHomePrimary = !state.isHomePrimary;
+            commit('setIsHomePrimary', !state.isHomePrimary);
+        },
+        initState({commit}) {
+            commit('setIsHomePrimary', true);
+            commit('setTransitionName', 'slide-right');
+        }
+    },
+    getters: {
+        isHomePrimary(state) {
+            return state.isHomePrimary;
+        },
+        transitionName(state) {
+            return state.transitionName;
         }
     }
 }
