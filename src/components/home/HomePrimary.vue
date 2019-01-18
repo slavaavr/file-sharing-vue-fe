@@ -21,12 +21,11 @@
                         ></v-img>
                     </v-flex>
                     <v-flex :class="btnAvailability">
-                        <v-btn color="primary" large @click="uploadFile">
+                        <v-btn color="primary" large @click="handleUploader">
                             Upload
                             <v-icon right>backup</v-icon>
                         </v-btn>
-                        <input id="uploader" ref="uploader" type="file"
-                               @сhange=""/>
+                        <input id="uploader" ref="uploader" type="file"/>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -35,6 +34,9 @@
 </template>
 
 <script>
+    import mainLogo from '@/assets/mainLogo.png'
+    import arrow from '@/assets/arrow.png'
+
     export default {
         data() {
             return {
@@ -44,8 +46,8 @@
             }
         },
         created() {
-            this.mainLogo = require('@/assets/mainLogo.png');
-            this.arrow = require('@/assets/arrow.png');
+            this.mainLogo = mainLogo;
+            this.arrow = arrow;
         },
         mounted() {
             const dragArea = this.$refs.dragArea;
@@ -71,7 +73,7 @@
                 dragArea.addEventListener(eventName, unhighlight, false)
             });
             const handleDrop = (e) => {
-                this.$store.dispatch('changeHome', e.dataTransfer.files);
+                this.setFile(e.dataTransfer.files[0]);
             };
             dragArea.addEventListener('drop', handleDrop, false);
         },
@@ -83,8 +85,16 @@
             }
         },
         methods: {
-            uploadFile() {
+            handleUploader() {
+                const changeEventUploader = (e) => {
+                    this.setFile(this.$refs.uploader.files[0]);
+                };
+                this.$refs.uploader.addEventListener('change', changeEventUploader, false);
                 this.$refs.uploader.click();
+            },
+            setFile(file) {
+                this.$store.dispatch('setFile', file);
+                this.$store.dispatch('changeHome');
             }
         }
     }
