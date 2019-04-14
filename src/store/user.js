@@ -21,7 +21,7 @@ export default {
                 commit('setLoading', false);
             } catch ({response}) {
                 commit('setLoading', false);
-                throw response.data.message
+                throw response.data
             }
         },
         async loginUser({commit}, payload) {
@@ -34,7 +34,7 @@ export default {
                 commit('setLoading', false);
             } catch ({response}) {
                 commit('setLoading', false);
-                throw response.data.message
+                throw response.data
             }
         },
         exitUser({commit}) {

@@ -7,7 +7,7 @@
                 @input="closeError"
                 :value="true"
         >
-            {{ error }}
+            {{ error.message }}
             <v-btn
                     color="blue darken-1"
                     flat
