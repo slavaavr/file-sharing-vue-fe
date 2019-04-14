@@ -23,6 +23,7 @@ export default {
         initState({commit}) {
             commit('setIsHomePrimary', true);
             commit('setTransitionName', 'slide-right');
+            commit('clearFile')
         }
     },
     getters: {
