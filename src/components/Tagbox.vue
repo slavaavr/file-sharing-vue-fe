@@ -47,7 +47,7 @@
 
         <template
                 slot="item"
-                slot-scope="{ index, item, parent }"
+                slot-scope="{ index, item }"
         >
             <v-list-tile-content>
                 <v-chip
@@ -113,11 +113,7 @@
             }
         },
         created() {
-            this.$store.dispatch('getPopularTags')
-                .then(tags => {
-                    tags.forEach(e => this.addTag(e))
-                })
-                .catch(err => this.$store.dispatch('setError', err.message))
+            this.$store.getters.basicTags.forEach(e => this.addTag(e));
         }
     }
 </script>
