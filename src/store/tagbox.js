@@ -4,10 +4,24 @@ export default {
     state: {
         basicTags: []
     },
+    mutations: {
+        setBasicTags(state, payload) {
+            state.basicTags = payload;
+        }
+    },
     actions: {
-        async getPopularTags() {
-            const tags = await axios.get('/popularTags');
-            return tags.data;
+        async initBasicTags({commit}) {
+            try {
+                const tags = await axios.get('/popularTags');
+                commit('setBasicTags', tags.data);
+            } catch (err) {
+                commit('setError', err)
+            }
+        }
+    },
+    getters: {
+        basicTags(state) {
+            return state.basicTags;
         }
     }
 }
