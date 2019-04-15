@@ -6,6 +6,7 @@
                 :top="true"
                 @input="closeError"
                 :value="true"
+                :multi-line="true"
         >
             {{ error.message }}
             <v-btn
