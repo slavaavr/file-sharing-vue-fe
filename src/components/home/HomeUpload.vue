@@ -30,7 +30,7 @@
                                             <v-spacer></v-spacer>
                                             <v-tooltip v-model="showTooltip" top>
                                                 <template v-slot:activator="{}">
-                                                    <v-btn @click="copyToClipboard" @mouseleave="toggleTooltip">Copy</v-btn>
+                                                    <v-btn @click="copyToClipboard" @mouseleave="showTooltip = false">Copy</v-btn>
                                                 </template>
                                                 <span>Copied!</span>
                                             </v-tooltip>
@@ -129,12 +129,9 @@
                     });
             },
             copyToClipboard() {
-                this.toggleTooltip();
+                this.showTooltip = true;
                 navigator.clipboard.writeText(this.linkToFile);
             },
-            toggleTooltip() {
-                this.showTooltip = !this.showTooltip
-            }
         },
         components: {
             appTagbox: Tagbox
