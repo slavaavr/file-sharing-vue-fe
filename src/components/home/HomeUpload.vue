@@ -10,13 +10,13 @@
                         <v-flex>
                             <v-card>
                                 <v-card-title primary-title class="pb-0">
-                                    <div class="headline">{{fileName}}</div>
+                                    <span class="headline">{{fileName}}</span>
                                     <v-progress-linear
                                             color="info"
                                             height="15"
                                             :value="percentCompleted"
                                     ></v-progress-linear>
-                                    <p>{{loadedPartSize}}/{{totalFileSize}}b</p>
+                                    <span>{{loadedPartSize}}/{{totalFileSize}}b</span>
                                 </v-card-title>
                                 <v-card-actions>
                                     <v-alert
@@ -30,7 +30,9 @@
                                             <v-spacer></v-spacer>
                                             <v-tooltip v-model="showTooltip" top>
                                                 <template v-slot:activator="{}">
-                                                    <v-btn @click="copyToClipboard" @mouseleave="showTooltip = false">Copy</v-btn>
+                                                    <v-btn @click="copyToClipboard" @mouseleave="showTooltip = false">
+                                                        Copy
+                                                    </v-btn>
                                                 </template>
                                                 <span>Copied!</span>
                                             </v-tooltip>
