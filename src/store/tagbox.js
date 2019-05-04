@@ -12,7 +12,7 @@ export default {
     actions: {
         async initBasicTags({commit}) {
             try {
-                const tags = await axios.get('/popularTags');
+                const tags = await axios.get('/tags?popular=true');
                 commit('setBasicTags', tags.data);
             } catch (err) {
                 commit('setError', err)
