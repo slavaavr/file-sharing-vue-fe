@@ -5,7 +5,7 @@ export default {
         file: null,
         totalFileSize: 0,
         loadedPartSize: 0,
-        storageTime: 0,
+        storageTime: '',
         tags: []
     },
     mutations: {
@@ -40,6 +40,9 @@ export default {
         setTags({commit}, payload) {
             commit('setTags', payload);
         },
+        setStorageTime({commit}, payload) {
+            commit('setStorageTime', payload);
+        },
         clearFile({commit}) {
             commit('clearFile')
         },
@@ -47,19 +50,23 @@ export default {
             commit('clearError');
             try {
                 let fd = new FormData();
+                let meta = {
+                    tags: state.tags.map(e => e.title),
+                    time: state.storageTime
+                };
                 fd.append('file', state.file);
-                fd.append('tags', state.tags);
-                fd.append('time', state.storageTime);
+                fd.append('meta', new Blob([JSON.stringify(meta)], {type: "application/json"}));
                 let config = {
                     onUploadProgress: function (progressEvent) {
                         commit('setLoadedPartSize', progressEvent.loaded);
-                        commit('setTotalFileSize',progressEvent.total);
+                        commit('setTotalFileSize', progressEvent.total);
                     }
                 };
-                const msg = await axios.post('/uploadFile', fd, config);
+                const msg = await axios.post('/files', fd, config);
                 return msg.data;
-            } catch ({response}) {
-                commit('setError', response.data);
+            } catch (err) {
+                commit('setError', err);
+                throw err;
             }
         }
     },
