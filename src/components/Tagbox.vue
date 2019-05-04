@@ -35,7 +35,7 @@
                     small
             >
                 <span class="pr-2">
-                  {{ item.text }}
+                  {{ item.title }}
                 </span>
                 <v-icon
                         small
@@ -56,7 +56,7 @@
                         label
                         small
                 >
-                    {{ item.text }}
+                    {{ item.title }}
                 </v-chip>
             </v-list-tile-content>
         </template>
@@ -90,21 +90,21 @@
             }
         },
         methods: {
-            filter(item, queryText, itemText) {
+            filter(item, queryTitle, itemTitle) {
                 if (item.header) return false;
 
                 const hasValue = val => val != null ? val : '';
 
-                const text = hasValue(itemText);
-                const query = hasValue(queryText);
+                const title = hasValue(itemTitle);
+                const query = hasValue(queryTitle);
 
-                return text.toString()
+                return title.toString()
                     .toLowerCase()
                     .indexOf(query.toString().toLowerCase()) > -1
             },
-            addTag(name) {
+            addTag(title) {
                 const tag = {
-                    text: name,
+                    title: title,
                     color: this.colors[this.currColor]
                 };
                 this.basicTags.push(tag);
