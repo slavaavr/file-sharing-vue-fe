@@ -56,7 +56,7 @@
                                                 v-model="storageTime"
                                                 :items="variantsOfTime"
                                                 hint="Pick the time of storage"
-                                                item-text="title"
+                                                item-text="time"
                                                 item-value="time"
                                                 persistent-hint
                                                 return-object
@@ -91,12 +91,12 @@
     export default {
         data() {
             return {
-                storageTime: {title: '1 hour', time: 1},
+                storageTime: {time: '1 hour'},
                 variantsOfTime: [
-                    {title: '1 hour', time: 1},
-                    {title: '1 day', time: 24},
-                    {title: '5 days', time: 24 * 5},
-                    {title: '30 days', time: 24 * 30},
+                    {time: '1 hour'},
+                    {time: '1 day'},
+                    {time: '5 days'},
+                    {time: '30 days'},
                 ],
                 linkToFile: '',
                 isFileUploaded: false,
@@ -105,7 +105,7 @@
         },
         watch: {
             storageTime() {
-                this.$store.dispatch('setStorageTime', this.storageTime.title);
+                this.$store.dispatch('setStorageTime', this.storageTime.time);
             }
         },
         computed: {
@@ -134,6 +134,9 @@
                 this.showTooltip = true;
                 navigator.clipboard.writeText(this.linkToFile);
             },
+        },
+        created() {
+            this.$store.dispatch('setStorageTime', this.storageTime.time);
         },
         components: {
             appTagbox: Tagbox
