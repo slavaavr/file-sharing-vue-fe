@@ -32,12 +32,13 @@ export default {
                 axios.defaults.headers.common['Authorization'] = entity.data.token;
                 commit('setUser', entity.data.user);
                 commit('setLoading', false);
-            } catch ({response}) {
+            } catch (err) {
                 commit('setLoading', false);
-                throw response.data
+                throw err
             }
         },
         exitUser({commit}) {
+            delete axios.defaults.headers.common['Authorization'];
             commit('exitUser');
         }
     },
