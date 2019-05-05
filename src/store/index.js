@@ -5,6 +5,7 @@ import user from './user'
 import shared from './shared'
 import file from './file'
 import tagbox from './tagbox'
+import stream from './stream'
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         user,
         shared,
         file,
-        tagbox
+        tagbox,
+        stream,
     }
 })
