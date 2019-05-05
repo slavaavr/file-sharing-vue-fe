@@ -1,6 +1,9 @@
+// TODO WTF it is not working?
+// import router from '@/router'
+
 export default {
     state: {
-        transitionName: 'slide-right',
+        transitionName: '',
         isHomePrimary: true,
     },
     mutations: {
