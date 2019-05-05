@@ -19,9 +19,9 @@ export default {
             try {
                 await axios.post('/register', payload);
                 commit('setLoading', false);
-            } catch ({response}) {
+            } catch (err) {
                 commit('setLoading', false);
-                throw response.data
+                throw err
             }
         },
         async loginUser({commit}, payload) {
