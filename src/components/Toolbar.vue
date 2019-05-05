@@ -2,13 +2,20 @@
     <v-toolbar app fixed color="blue darken-1" dark>
         <v-container fluid class="ma-0">
             <v-layout row justify-center>
-                <v-btn flat @click="initState">
-                    <router-link to="/" class="barTitle">FileSharing</router-link>
-                </v-btn>
-                <v-btn flat>
-                    Stream
-                    <v-icon right>view_stream</v-icon>
-                </v-btn>
+                <router-link to="/">
+                    <v-btn flat @click="initState">
+                        <span class="barTitle">FileSharing</span>
+                    </v-btn>
+                </router-link>
+                <router-link to="/stream">
+                    <v-btn flat>
+                        <span>
+                            Stream
+                            <v-icon right>view_stream</v-icon>
+                        </span>
+                    </v-btn>
+                </router-link>
+
                 <v-text-field
                         flat
                         solo-inverted
@@ -71,9 +78,13 @@
 <style scoped>
     .barTitle {
         font-size: medium;
+    }
+
+    a {
         color: inherit;
         text-decoration: none;
     }
+
     #authoritiesBlock {
         white-space: nowrap;
     }
