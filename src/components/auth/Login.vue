@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog_login" max-width="600px">
+    <v-dialog v-model="dialogLogin" max-width="600px">
         <v-btn flat slot="activator">
             Login
             <v-icon right>account_circle</v-icon>
@@ -51,7 +51,7 @@
     export default {
         data() {
             return {
-                dialog_login: false,
+                dialogLogin: false,
                 email: '',
                 password: '',
                 isFormValid: false,
@@ -78,16 +78,16 @@
                         password: this.password
                     };
                     this.$store.dispatch('loginUser', user)
-                        .then(() => this.dialog_login = false)
+                        .then(() => this.dialogLogin = false)
                         .catch((err) => this.$store.dispatch('setError', err))
                 }
             },
             onClose() {
-                this.dialog_login = false;
+                this.dialogLogin = false;
             }
         },
         watch: {
-            dialog_login(val) {
+            dialogLogin(val) {
                 if (val === false) {
                     this.$refs.form.reset();
                 }
