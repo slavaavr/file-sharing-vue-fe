@@ -1,8 +1,10 @@
 <template>
-    <transition :name="transitionName" mode="out-in">
-        <app-home-primary v-if="isHomePrimary"></app-home-primary>
-        <app-home-upload v-else></app-home-upload>
-    </transition>
+    <div>
+        <transition :name="transitionName" mode="out-in">
+            <app-home-primary v-if="isHomePrimary"></app-home-primary>
+            <app-home-upload v-else></app-home-upload>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -11,13 +13,9 @@
 
     export default {
         data() {
-            return {
-
-            }
+            return {}
         },
-        methods: {
-
-        },
+        methods: {},
         computed: {
             isHomePrimary() {
                 return this.$store.getters.isHomePrimary;
