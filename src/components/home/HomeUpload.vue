@@ -16,7 +16,7 @@
                                             height="15"
                                             :value="percentCompleted"
                                     ></v-progress-linear>
-                                    <span>{{loadedPartSize}}/{{totalFileSize}}b</span>
+                                    <span>{{loadedPartSize}}/{{totalFileSize}}</span>
                                 </v-card-title>
                                 <v-card-actions>
                                     <v-alert
@@ -113,10 +113,10 @@
                 return this.$store.getters.loadedPartSize * 100 / this.$store.getters.totalFileSize
             },
             totalFileSize() {
-                return this.$store.getters.totalFileSize;
+                return this.prettyBytes(this.$store.getters.totalFileSize);
             },
             loadedPartSize() {
-                return this.$store.getters.loadedPartSize;
+                return this.prettyBytes(this.$store.getters.loadedPartSize, true);
             },
             fileName() {
                 return this.$store.getters.file.name;
@@ -133,6 +133,16 @@
             copyToClipboard() {
                 this.showTooltip = true;
                 navigator.clipboard.writeText(this.linkToFile);
+            },
+            prettyBytes(bytes, quiet=false) {
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                if (bytes === 0) return 0;
+                const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                if (quiet === true) {
+                    return Math.round(bytes / Math.pow(1024, i), 2);
+                } else {
+                    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+                }
             },
         },
         created() {

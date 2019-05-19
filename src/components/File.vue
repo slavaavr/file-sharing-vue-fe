@@ -11,7 +11,7 @@
                 <div v-if="this.data.user">uploaded by: {{this.data.user.nickname}}</div>
                 <div>uploaded at: {{this.data.creationDate.substring(0,10)}}</div>
                 <div>type: {{this.data.type}}</div>
-                <div>size: {{this.data.size}}b</div>
+                <div>size: {{prettyBytes(this.data.size)}}</div>
                 <div v-if="this.data.tags.length">tags: {{this.data.tags.map(el => el.title)}}</div>
             </div>
         </v-card-title>
@@ -65,6 +65,11 @@
                             a.click();
                         }
                     )
+            },
+            prettyBytes(bytes) {
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
             },
         }
     }
