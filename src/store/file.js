@@ -4,7 +4,8 @@ export default {
     state: {
         file: null,
         totalFileSize: 0,
-        loadedPartSize: 0,
+        prettySize: '',
+        loadedFileSize: 0,
         storageTime: '',
         tags: []
     },
@@ -15,7 +16,8 @@ export default {
         clearFile(state) {
             state.file = null;
             state.totalFileSize = 0;
-            state.loadedPartSize = 0;
+            state.loadedFileSize = 0;
+            state.prettySize = '';
             state.storageTime = 0;
             state.tags = [];
         },
@@ -25,11 +27,14 @@ export default {
         setStorageTime(state, payload) {
             state.storageTime = payload;
         },
-        setLoadedPartSize(state, payload) {
-            state.loadedPartSize = payload;
+        setLoadedFileSize(state, payload) {
+            state.loadedFileSize = payload;
         },
         setTags(state, payload) {
             state.tags = payload;
+        },
+        setPettySize(state, payload) {
+            state.prettySize = payload;
         }
     },
     actions: {
@@ -43,6 +48,9 @@ export default {
         setStorageTime({commit}, payload) {
             commit('setStorageTime', payload);
         },
+        setPettySize({commit}, payload) {
+            commit('setPettySize', payload);
+        },
         clearFile({commit}) {
             commit('clearFile')
         },
@@ -52,14 +60,14 @@ export default {
                 let fd = new FormData();
                 let meta = {
                     tags: state.tags.map(e => e.title),
+                    prettySize: state.prettySize,
                     time: state.storageTime
                 };
                 fd.append('file', state.file);
                 fd.append('meta', new Blob([JSON.stringify(meta)], {type: "application/json"}));
                 let config = {
                     onUploadProgress: function (progressEvent) {
-                        commit('setLoadedPartSize', progressEvent.loaded);
-                        commit('setTotalFileSize', progressEvent.total);
+                        commit('setLoadedFileSize', progressEvent.loaded);
                     }
                 };
                 const msg = await axios.post('/files', fd, config);
@@ -77,8 +85,8 @@ export default {
         percentCompleted(state) {
             return state.percentCompleted;
         },
-        loadedPartSize(state) {
-            return state.loadedPartSize;
+        loadedFileSize(state) {
+            return state.loadedFileSize;
         },
         totalFileSize(state) {
             return state.totalFileSize;
