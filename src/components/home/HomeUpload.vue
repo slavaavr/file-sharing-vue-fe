@@ -16,7 +16,7 @@
                                             height="15"
                                             :value="percentCompleted"
                                     ></v-progress-linear>
-                                    <span>{{loadedPartSize}}/{{totalFileSize}}</span>
+                                    <span>{{loadedFileSize}}/{{totalFileSize}}</span>
                                 </v-card-title>
                                 <v-card-actions>
                                     <v-alert
@@ -110,13 +110,13 @@
         },
         computed: {
             percentCompleted() {
-                return this.$store.getters.loadedPartSize * 100 / this.$store.getters.totalFileSize
+                return this.$store.getters.loadedFileSize * 100 / this.$store.getters.totalFileSize
             },
             totalFileSize() {
                 return this.prettyBytes(this.$store.getters.totalFileSize);
             },
-            loadedPartSize() {
-                return this.prettyBytes(this.$store.getters.loadedPartSize, true);
+            loadedFileSize() {
+                return this.prettyBytes(this.$store.getters.loadedFileSize, true);
             },
             fileName() {
                 return this.$store.getters.file.name;
@@ -134,7 +134,7 @@
                 this.showTooltip = true;
                 navigator.clipboard.writeText(this.linkToFile);
             },
-            prettyBytes(bytes, quiet=false) {
+            prettyBytes(bytes, quiet = false) {
                 const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                 if (bytes === 0) return 0;
                 const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
@@ -147,6 +147,7 @@
         },
         created() {
             this.$store.dispatch('setStorageTime', this.storageTime.time);
+            this.$store.dispatch('setPettySize', this.totalFileSize);
         },
         components: {
             appTagbox: Tagbox
